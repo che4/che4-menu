@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_BxaXACerEeWxCPrV0pAZQQ">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_QqSikIrOEeW7h_qdP9N9fw" featurename="commands" parentElementId="xpath:/">
+    <elements xsi:type="commands:Command" xmi:id="_UCYfwIrOEeW7h_qdP9N9fw" elementId="test.handler.helloWorldCommand" commandName="HelloWorld"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_fW12kIrOEeW7h_qdP9N9fw" featurename="handlers" parentElementId="xpath:/">
+    <elements xsi:type="commands:Handler" xmi:id="_qOATABYdEeirct2E526O9g" elementId="io.github.che4.tray.handler.0" contributionURI="bundleclass://io.github.che4.menu/io.github.che4.menu.handlers.HelloWorldHandler" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_pVgfIIrOEeW7h_qdP9N9fw" featurename="menuContributions" parentElementId="xpath:/">
+    <elements xsi:type="menu:MenuContribution" xmi:id="_xis9wBYfEeirct2E526O9g" elementId="io.github.che4.menu" positionInParent="after=additions" parentId="org.eclipse.ui.main.menu">
+      <children xsi:type="menu:Menu" xmi:id="_0RCMQBYfEeirct2E526O9g" elementId="io.github.che4.menu.0" label="%io.github.che4.menu.0.title" iconURI="platform:/plugin/io.github.che4.menu/icons/che-guevara.png">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_pgbT8BYgEeirct2E526O9g" elementId="io.github.che4.menu.0.item.HelloWorld" label="%io.github.che4.menu.0.item.HelloWorld" iconURI="platform:/plugin/io.github.che4.menu/icons/che-guevara.png" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
+        <children xsi:type="menu:MenuSeparator" xmi:id="_yuiFECIPEeivy4dHnId4Tg" elementId="io.github.che4.menu.0.menuseparator.0"/>
+        <children xsi:type="menu:DynamicMenuContribution" xmi:id="_jQoTUBvSEeintqXgv8Elkw" elementId="io.github.che4.menu.0.item.Languages" label="%io.github.che4.menu.0.item.Languages" contributionURI="bundleclass://io.github.che4.menu/io.github.che4.menu.menus.LanguagesMenu"/>
+      </children>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_P1ysgBZGEeigiaFBX_jj6g" featurename="addons" parentElementId="xpath:/">
+    <elements xsi:type="application:Addon" xmi:id="_du6_gBZGEeigiaFBX_jj6g" elementId="io.github.che4.menu.addon.0" contributionURI="bundleclass://io.github.che4.menu/io.github.che4.menu.MenuAddon"/>
+  </fragments>
+</fragment:ModelFragments>

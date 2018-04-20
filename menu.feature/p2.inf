@@ -1,0 +1,12 @@
+#units.1.id=che4.category
+#units.1.version=1.0.0
+#units.1.provides.1.namespace=org.eclipse.equinox.p2.iu
+#units.1.provides.1.name=che4.category
+#units.1.provides.1.version=1.0.0
+#units.1.properties.1.name=org.eclipse.equinox.p2.type.category
+#units.1.properties.1.value=true
+#units.1.properties.2.name=org.eclipse.equinox.p2.name
+#units.1.properties.2.value=Che4
+
+#units.1.requires.1.namespace=org.eclipse.equinox.p2.iu
+#units.1.requires.1.name=io.github.che4.menu.feature.feature.group
