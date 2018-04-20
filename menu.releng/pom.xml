@@ -108,7 +108,7 @@
 						<artifact>
 						<groupId>io.github.che4</groupId>
 							<artifactId>target-dev-platform</artifactId>
-							<version>[0.0.1, 0.1)</version>
+							<version>0.0.4</version>
 						</artifact>
 					</target>
 					<environments>
