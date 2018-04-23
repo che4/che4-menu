@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>io.github.che4</groupId>
 		<artifactId>menu.releng</artifactId>
-		<version>1.0.0.201804221456</version>
+		<version>1.0.0.201804221428</version>
 		<relativePath>../menu.releng</relativePath>
 	</parent>
-	<artifactId>io.github.che4.menu</artifactId>
-	<name>Che4 menu for Eclipse</name>
+	<artifactId>io.github.che4.menu.ru</artifactId>
+	<name>Che4 menu L10N (Russian)</name>
 	<packaging>eclipse-plugin</packaging>
 </project>

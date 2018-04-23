@@ -3,21 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.che4</groupId>
 	<artifactId>menu.releng</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0.201804221456</version>
 	<packaging>pom</packaging>
 	<name>Che4 :: Menu :: Release Engineering</name>
 	<description>Parent artifact for github.com/che4/che4-menu project.</description>
 	<inceptionYear>2018</inceptionYear>
-	<modules>
-		<module>../menu.feature</module>
-		<module>../menu.plugin</module>
-		<module>../menu.plugin.ru</module>
-	</modules>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.osgi.framework.storage.clean>onFirstInit</org.osgi.framework.storage.clean>
 		<org.osgi.core.version>4.3.1</org.osgi.core.version>
 		<tycho-version>1.1.0</tycho-version>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+		<version-range.target-platform>[0.0.2,0.1)</version-range.target-platform>
+		<!-- to generate actual last version use command mvn versions:update-properties -->
+		<version.target-platform>0.0.4</version.target-platform>
 	</properties>
 	<organization>
 		<name>Che4</name>
@@ -92,40 +92,7 @@
 				</configuration>
 			</plugin>
 			-->
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<pomDependencies>consider</pomDependencies>
-					<target>
-						<artifact>
-						<groupId>io.github.che4</groupId>
-							<artifactId>target-dev-platform</artifactId>
-							<version>0.0.4</version>
-						</artifact>
-					</target>
-					<environments>
-						<environment>
-							<os>win32</os><ws>win32</ws><arch>x86</arch>
-						</environment>
-					</environments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-repository-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<includeAllDependencies>false</includeAllDependencies>
-				</configuration>
-			</plugin>
+			
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -169,11 +136,143 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>versions</id>
+			<build>
+				<defaultGoal>validate</defaultGoal>
+				<plugins>
+					<!--  use this version to get latest target platform, since bintray doesn't accept SNAPSHOTS -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>2.5</version>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals><goal>update-properties</goal></goals>
+							</execution>
+						</executions>
+						<configuration>
+							<properties><property>
+									<name>version.target-platform</name>
+									<version>${version-range.target-platform}</version>
+							</property></properties>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<!-- Dependencies to resolve last version on bintray.com -->
+			<dependencies>
+				<dependency>
+					<groupId>io.github.che4</groupId>
+					<artifactId>target-dev-platform</artifactId>
+					<version>${version.target-platform}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>releng</id>
+			<modules>
+				<module>../menu.feature</module>
+				<module>../menu.plugin</module>
+				<module>../menu.plugin.ru</module>
+			</modules>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-maven-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<extensions>true</extensions>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<pomDependencies>consider</pomDependencies>
+							<target>
+								<artifact>
+								<groupId>io.github.che4</groupId>
+									<artifactId>target-dev-platform</artifactId>
+									<version>${version.target-platform}</version>
+								</artifact>
+							</target>
+							<environments>
+								<environment>
+									<os>win32</os><ws>win32</ws><arch>x86</arch>
+								</environment>
+							</environments>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-p2-repository-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<includeAllDependencies>false</includeAllDependencies>
+						</configuration>
+					</plugin>
+
+					<!-- parse project version -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>parse-version</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>parse-version</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Change SNAPSHOT to timestamp and update children modules -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>2.5</version>
+						<executions>
+							<execution>
+								<id>set-pom-version</id>
+								<phase>initialize</phase>
+								<goals><goal>set</goal></goals>
+								<configuration>
+									<!-- processAllModules>true</processAllModules -->
+									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${maven.build.timestamp}</newVersion>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Update OSGi versions -->
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-versions-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<executions>
+							<execution>
+								<id>set-osgi-versions</id>
+								<phase>initialize</phase>
+								<goals><goal>update-eclipse-metadata</goal></goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<repository>
 			<id>public-bintray</id>
 			<url>https://dl.bintray.com/che4/maven</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 	<url>https://github.com/che4/che4-menu</url>

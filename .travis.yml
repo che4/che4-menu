@@ -2,4 +2,6 @@ language: java
 cache:
   directories:
   - "$HOME/.m2"
-script: mvn -f menu.releng/pom.xml --global-settings settings.xml
+#before_install: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:get -DremoteRepositories=https://dl.bintray.com/che4/maven -Dartifact=io.github.che4:target-dev-platform:0.0.4:target -Ddest=my.target
+before_install: mvn -f menu.releng/pom.xml -P versions
+script: mvn -f menu.releng/pom.xml -P releng --global-settings settings.xml package
