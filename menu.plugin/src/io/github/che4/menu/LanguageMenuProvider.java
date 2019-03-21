@@ -1,7 +1,10 @@
 package io.github.che4.menu;
 
 import java.util.AbstractMap;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +25,7 @@ import org.eclipse.e4.ui.model.application.commands.MHandler;
 import org.eclipse.e4.ui.model.application.ui.menu.ItemType;
 import org.eclipse.e4.ui.model.application.ui.menu.MHandledMenuItem;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenu;
+import org.eclipse.e4.ui.model.application.ui.menu.MMenuElement;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenuFactory;
 
 import io.github.che4.menu.handlers.ChangeLocaleHandler;
@@ -92,8 +96,8 @@ public class LanguageMenuProvider {
 				category,
 				E4ModelUtil.convertToCoreParams(COMMAND.getParameters()) );
 	}
-	
-	public MMenu getLanguageMenu() {
+	@Deprecated
+	public MMenu getLanguageMenus() {
 		MMenu menu = MMenuFactory.INSTANCE.createMenu();
 		menu.setContributorURI(CONTRIBUTOR_URI);
 		menu.setLabel(E4Constants.L10N_MENU_ITEM_LANGUAGES);
@@ -128,6 +132,35 @@ public class LanguageMenuProvider {
 			.forEach( (k, v) -> menu.getChildren().add(v) );
 		
 		return menu;
+	}
+	
+	public Collection<? extends MMenuElement> getLanguageItems() {
+		Set<String> supportedLanguages = L10nUtil.getAvailableLocales();
+		if(supportedLanguages.isEmpty()) Collections.emptyList();
+		if(supportedLanguages.size() == 1 &&
+				supportedLanguages.contains(L10nUtil.LOCALE_DEFAULT.getLanguage())) return Collections.emptyList();
+		
+		supportedLanguages.add(L10nUtil.LOCALE_DEFAULT.getLanguage());
+		
+		Locale currentLocale = (Locale) context.get(TranslationService.LOCALE);
+		String currentLang = currentLocale == null ? null : currentLocale.getLanguage();
+		
+		return supportedLanguages.stream()
+			.map( lang -> getLocaleMenuItem(lang, currentLang))
+			.filter( optLang -> optLang.isPresent() )
+			.map ( optLang -> optLang.get() )
+			.reduce(
+				new TreeMap<String, MHandledMenuItem>(),
+				(treeMap, entry) -> {
+					treeMap.put( entry.getKey(), entry.getValue() );
+					return treeMap;
+				}, 
+				(tm1, tm2) -> {
+					tm1.putAll(tm2);
+					return tm1;
+				}
+			)
+			.values();
 	}
 	
 	@SuppressWarnings("restriction")

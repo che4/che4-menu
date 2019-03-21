@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: io.github.che4.menu.Activator
 Bundle-Vendor: Che4
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Provide-Capability: che4.tray.minimizer;menuContributionId="io.github.che4.menu"
 Import-Package: javax.annotation,
  javax.inject,
  org.eclipse.core.commands,

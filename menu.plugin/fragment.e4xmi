@@ -7,11 +7,15 @@
     <elements xsi:type="commands:Handler" xmi:id="_qOATABYdEeirct2E526O9g" elementId="io.github.che4.tray.handler.0" contributionURI="bundleclass://io.github.che4.menu/io.github.che4.menu.handlers.HelloWorldHandler" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_pVgfIIrOEeW7h_qdP9N9fw" featurename="menuContributions" parentElementId="xpath:/">
+    <elements xsi:type="menu:MenuContribution" xmi:id="_Pw_HsEsmEemjCYprjgB5IQ" elementId="menu.plugin.menucontribution.0" positionInParent="after=additions" parentId="org.eclipse.ui.main.menu">
+      <children xsi:type="menu:Menu" xmi:id="_o1kmgEsmEemjCYprjgB5IQ" elementId="io.github.che4.menu.i18n" label="%io.github.che4.menu.0.item.Languages">
+        <children xsi:type="menu:DynamicMenuContribution" xmi:id="_jQoTUBvSEeintqXgv8Elkw" elementId="io.github.che4.menu.0.item.Languages" label="%io.github.che4.menu.0.item.Languages" contributionURI="bundleclass://io.github.che4.menu/io.github.che4.menu.menus.LanguagesMenu"/>
+      </children>
+    </elements>
     <elements xsi:type="menu:MenuContribution" xmi:id="_xis9wBYfEeirct2E526O9g" elementId="io.github.che4.menu" positionInParent="after=additions" parentId="org.eclipse.ui.main.menu">
-      <children xsi:type="menu:Menu" xmi:id="_0RCMQBYfEeirct2E526O9g" elementId="io.github.che4.menu.0" label="%io.github.che4.menu.0.title" iconURI="platform:/plugin/io.github.che4.menu/icons/che-guevara.png">
+      <children xsi:type="menu:Menu" xmi:id="_0RCMQBYfEeirct2E526O9g" elementId="io.github.che4.menu.che4" label="%io.github.che4.menu.0.title" iconURI="platform:/plugin/io.github.che4.menu/icons/che-guevara.png">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_pgbT8BYgEeirct2E526O9g" elementId="io.github.che4.menu.0.item.HelloWorld" label="%io.github.che4.menu.0.item.HelloWorld" iconURI="platform:/plugin/io.github.che4.menu/icons/che-guevara.png" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_yuiFECIPEeivy4dHnId4Tg" elementId="io.github.che4.menu.0.menuseparator.0"/>
-        <children xsi:type="menu:DynamicMenuContribution" xmi:id="_jQoTUBvSEeintqXgv8Elkw" elementId="io.github.che4.menu.0.item.Languages" label="%io.github.che4.menu.0.item.Languages" contributionURI="bundleclass://io.github.che4.menu/io.github.che4.menu.menus.LanguagesMenu"/>
       </children>
     </elements>
   </fragments>

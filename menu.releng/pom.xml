@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.che4</groupId>
 	<artifactId>menu.releng</artifactId>
-	<version>1.0.0.201804221456</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Che4 :: Menu :: Release Engineering</name>
 	<description>Parent artifact for github.com/che4/che4-menu project.</description>
@@ -14,7 +14,7 @@
 		<org.osgi.framework.storage.clean>onFirstInit</org.osgi.framework.storage.clean>
 		<org.osgi.core.version>4.3.1</org.osgi.core.version>
 		<tycho-version>1.1.0</tycho-version>
-		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+		<!-- maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format -->
 		<version-range.target-platform>[0.0.2,0.1)</version-range.target-platform>
 		<!-- to generate actual last version use command mvn versions:update-properties -->
 		<version.target-platform>0.0.4</version.target-platform>
@@ -102,7 +102,6 @@
 					<version>1.0.0</version>
 					<executions>
 						<execution>
-							<!-- any phase before your app deploys -->
 							<phase>initialize</phase>
 							<goals>
 								<goal>set-system-properties</goal>
@@ -127,30 +126,77 @@
 						<deployAtEnd>true</deployAtEnd>
 					</configuration>
 				</plugin>
-				<plugin>
-					<!-- run mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=2.5.0-SNAPSHOT -->
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-versions-plugin</artifactId>
-					<version>${tycho-version}</version>
-				</plugin> 
 			</plugins>
 		</pluginManagement>
 	</build>
 	
 	<profiles>
 		<profile>
-			<id>versions</id>
+			<id>prepare-release</id>
 			<build>
-				<defaultGoal>validate</defaultGoal>
 				<plugins>
-					<!--  use this version to get latest target platform, since bintray doesn't accept SNAPSHOTS -->
+					<!-- parse project version
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>read-project-version</id>
+								<phase>initialize</phase>
+								<goals><goal>parse-version</goal></goals>
+							</execution>
+						</executions>
+					</plugin>
+					 -->
+					<!-- Change SNAPSHOT to timestamp and update children modules -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<version>3.0.0-M1</version>
+						<executions>
+							<execution>
+								<id>enforce-versions</id>
+								<goals><goal>enforce</goal></goals>
+								<configuration>
+									<rules>
+										<requireProperty>
+											<property>releaseVersion</property>
+										</requireProperty>
+									</rules>
+									<failFast>true</failFast>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- run mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=2.5.0-SNAPSHOT -->
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-versions-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<executions>
+							<execution>
+								<id>set-release-versions</id>
+								<phase>initialize</phase>
+								<goals><goal>set-version</goal></goals>
+								<configuration>
+									<!-- 
+									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</newVersion>
+									-->
+									<newVersion>${releaseVersion}</newVersion>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- use this version to get latest target platform, since bintray doesn't accept SNAPSHOTS -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>versions-maven-plugin</artifactId>
 						<version>2.5</version>
 						<executions>
 							<execution>
-								<phase>validate</phase>
+								<id>get-target-platform-version</id>
+								<phase>initialize</phase>
 								<goals><goal>update-properties</goal></goals>
 							</execution>
 						</executions>
@@ -171,6 +217,71 @@
 					<version>${version.target-platform}</version>
 				</dependency>
 			</dependencies>
+		</profile>
+		<profile>
+			<id>prepare-children</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-maven-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<extensions>true</extensions>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
+						<version>${tycho-version}</version>
+						<configuration>
+							<pomDependencies>consider</pomDependencies>
+							<target>
+								<artifact>
+								<groupId>io.github.che4</groupId>
+									<artifactId>target-dev-platform</artifactId>
+									<version>${version.target-platform}</version>
+								</artifact>
+							</target>
+							<environments>
+								<environment>
+									<os>win32</os><ws>win32</ws><arch>x86_64</arch>
+								</environment>
+							</environments>
+						</configuration>
+					</plugin>
+					<!-- parse project version -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>parse-version</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>parse-version</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Change SNAPSHOT to timestamp and update children modules -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>versions-maven-plugin</artifactId>
+						<version>2.5</version>
+						<executions>
+							<execution>
+								<id>set-pom-version</id>
+								<phase>initialize</phase>
+								<goals><goal>set</goal></goals>
+								<configuration>
+									<processAllModules>false</processAllModules>
+									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-RELEASE</newVersion>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>releng</id>
@@ -202,7 +313,7 @@
 							</target>
 							<environments>
 								<environment>
-									<os>win32</os><ws>win32</ws><arch>x86</arch>
+									<os>win32</os><ws>win32</ws><arch>x86_64</arch>
 								</environment>
 							</environments>
 						</configuration>
@@ -214,52 +325,6 @@
 						<configuration>
 							<includeAllDependencies>false</includeAllDependencies>
 						</configuration>
-					</plugin>
-
-					<!-- parse project version -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>3.0.0</version>
-						<executions>
-							<execution>
-								<id>parse-version</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>parse-version</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- Change SNAPSHOT to timestamp and update children modules -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>versions-maven-plugin</artifactId>
-						<version>2.5</version>
-						<executions>
-							<execution>
-								<id>set-pom-version</id>
-								<phase>initialize</phase>
-								<goals><goal>set</goal></goals>
-								<configuration>
-									<!-- processAllModules>true</processAllModules -->
-									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${maven.build.timestamp}</newVersion>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- Update OSGi versions -->
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-versions-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<executions>
-							<execution>
-								<id>set-osgi-versions</id>
-								<phase>initialize</phase>
-								<goals><goal>update-eclipse-metadata</goal></goals>
-							</execution>
-						</executions>
 					</plugin>
 				</plugins>
 			</build>

@@ -12,8 +12,10 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
 public class L10nUtil {
-	
 	public static final Locale LOCALE_DEFAULT = Locale.ENGLISH;
+	static {
+		Locale.setDefault(LOCALE_DEFAULT);
+	}
 
 	public static Set<String> getAvailableLocales() {
 		Bundle bundle = FrameworkUtil.getBundle(L10nUtil.class);

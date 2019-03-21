@@ -10,6 +10,7 @@ import io.github.che4.menu.LanguageMenuProvider;
 public class LanguagesMenu {
 	@AboutToShow
 	public void aboutToShow(List<MMenuElement> items, LanguageMenuProvider lmp) {
-		items.add(lmp.getLanguageMenu());
+		lmp.getLanguageItems().forEach( mel -> items.add(mel));
+		//items.add(lmp.getLanguageMenus());
 	}
 }

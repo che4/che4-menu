@@ -24,6 +24,7 @@ import org.eclipse.e4.ui.model.application.ui.menu.MMenu;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenuContribution;
 import org.eclipse.e4.ui.workbench.IModelResourceHandler;
 import org.eclipse.e4.ui.workbench.IPresentationEngine;
+import org.eclipse.e4.ui.workbench.Selector;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.swt.SWT;
@@ -38,6 +39,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.event.Event;
 
 import io.github.che4.menu.util.E4Constants;
+import io.github.che4.menu.util.L10nUtil;
 
 @SuppressWarnings("restriction")
 public class MenuAddon {
@@ -45,15 +47,25 @@ public class MenuAddon {
 	private final String bundleName = FrameworkUtil.getBundle(getClass()).getSymbolicName();
 	
 	@PostConstruct
-	public void init(final MApplication application, EModelService eModelService, IEclipseContext context) {
-		LanguageMenuProvider lmp = new LanguageMenuProvider();
-		ContextInjectionFactory.inject(lmp, context);
+	public void init(
+			final IEclipseContext context,
+			final MApplication application,
+			final EModelService modelService,
+			final UISynchronize uiSync) {
+		//LanguageMenuProvider lmp = new LanguageMenuProvider();
+		//ContextInjectionFactory.inject(lmp, context);
+		//context.set(LanguageMenuProvider.class, lmp);
+		LanguageMenuProvider lmp = ContextInjectionFactory.make(LanguageMenuProvider.class, context);
 		context.set(LanguageMenuProvider.class, lmp);
+		
+		ContextInjectionFactory.make(I18nIconProvider.class, context);
+		
+		
 		
 		/*
 		List<MMenuContribution> dynamicMenuContributions = application.getChildren().stream()
 			.filter( window -> window.getMainMenu() != null )
-			//.map( window -> {				
+			//.map( window -> {
 			//	window.setIconURI("platform:/plugin/io.github.che4.menu/icons/che-guevara-64.png");
 			//	return window;
 			//})

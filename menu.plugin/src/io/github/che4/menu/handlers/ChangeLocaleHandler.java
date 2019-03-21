@@ -1,4 +1,3 @@
- 
 package io.github.che4.menu.handlers;
 
 import org.eclipse.e4.core.di.annotations.Execute;
