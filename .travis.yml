@@ -4,5 +4,5 @@ cache:
   - "$HOME/.m2"
 #before_install: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:get -DremoteRepositories=https://dl.bintray.com/che4/maven -Dartifact=io.github.che4:target-dev-platform:0.0.4:target -Ddest=my.target
 #before_install: mvn -f menu.releng/pom.xml -P versions
-before_install: chmode +x mvnw
+before_install: chmod +x mvnw
 script: ./mvnw -f menu.releng/pom.xml -DforceContextQualifier=$TRAVIS_BUILD_NUMBER deploy
