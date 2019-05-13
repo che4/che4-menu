@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="io.github.che4.menu.feature"
-      label="Che4 : Menu"
+      id="io.github.che4.i18n.menu.feature"
+      label="%featureName"
       version="1.0.0.qualifier"
-      provider-name="Che4"
-      plugin="io.github.che4.menu">
+      provider-name="%providerName"
+      plugin="io.github.che4.i18n.menu">
 
    <description>
       %description
@@ -19,18 +19,10 @@
    </license>
 
    <plugin
-         id="io.github.che4.menu"
+         id="io.github.che4.i18n.menu"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="io.github.che4.menu.ru"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
 </feature>

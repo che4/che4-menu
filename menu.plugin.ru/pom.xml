@@ -4,11 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.che4</groupId>
-		<artifactId>menu.releng</artifactId>
+		<artifactId>io.github.che4.i18n.menu.releng</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../menu.releng</relativePath>
 	</parent>
-	<artifactId>io.github.che4.menu.ru</artifactId>
-	<name>Che4 menu L10N (Russian)</name>
+	<artifactId>io.github.che4.i18n.menu.ru</artifactId>
+	<name>Che4 i18n menu plugin's fragment</name>
 	<packaging>eclipse-plugin</packaging>
+	<description>The fragment provides additional localizations to Che4 i18n menu.</description>
 </project>

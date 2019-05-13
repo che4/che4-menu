@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Che4 menu (Russian)
-Bundle-SymbolicName: io.github.che4.menu.ru
+Bundle-SymbolicName: io.github.che4.i18n.menu.ru
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: io.github.che4.menu;bundle-version="1.0.0"
+Fragment-Host: io.github.che4.i18n.menu;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Localization: OSGI-INF/l10n/bundle
 Bundle-Vendor: Che4
+Automatic-Module-Name: io.github.che4.i18n.menu.ru

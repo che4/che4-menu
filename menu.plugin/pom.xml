@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.che4</groupId>
-		<artifactId>menu.releng</artifactId>
+		<artifactId>io.github.che4.i18n.menu.releng</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../menu.releng</relativePath>
 	</parent>
-	<artifactId>io.github.che4.menu</artifactId>
-	<name>Che4 menu for Eclipse</name>
+	<artifactId>io.github.che4.i18n.menu</artifactId>
+	<name>Che4 i18n menu plugin for Eclipse RCP</name>
 	<packaging>eclipse-plugin</packaging>
 </project>

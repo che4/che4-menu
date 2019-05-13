@@ -1,25 +1,31 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Che4 menu
-Bundle-SymbolicName: io.github.che4.menu;singleton:=true
+Bundle-Name: Che4 Internationalization menu
+Bundle-Description: Eclipse menu to show available languages in the application
+Bundle-Category: eclipse rcp, i18n
+Bundle-Icon: /icons/che-guevara-64.png;size=64
+Bundle-SymbolicName: io.github.che4.i18n.menu;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: io.github.che4.menu.Activator
+Bundle-Activator: io.github.che4.i18n.menu.Activator
 Bundle-Vendor: Che4
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Provide-Capability: che4.tray.minimizer;menuContributionId="io.github.che4.menu"
-Import-Package: javax.annotation,
+Bundle-Developers: dk;name="Denis Kalinin"
+Provide-Capability: io.github.che4.tray.menu;menuContributionId="io.github.che4.i18n.menu"
+Import-Package: com.ibm.icu.util,
+ javax.annotation,
  javax.inject,
  org.eclipse.core.commands,
- org.eclipse.core.runtime,
  org.eclipse.e4.core.commands,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.di,
  org.eclipse.e4.core.di.annotations,
  org.eclipse.e4.core.di.extensions,
  org.eclipse.e4.core.services.contributions,
+ org.eclipse.e4.core.services.events,
  org.eclipse.e4.core.services.nls,
  org.eclipse.e4.core.services.translation,
  org.eclipse.e4.ui.di,
+ org.eclipse.e4.ui.internal.workbench,
  org.eclipse.e4.ui.internal.workbench.swt,
  org.eclipse.e4.ui.model.application,
  org.eclipse.e4.ui.model.application.commands,
@@ -34,6 +40,7 @@ Import-Package: javax.annotation,
  org.eclipse.e4.ui.workbench.renderers.swt,
  org.eclipse.e4.ui.workbench.swt.factories,
  org.eclipse.jface.dialogs,
+ org.eclipse.jface.util,
  org.eclipse.swt,
  org.eclipse.swt.events,
  org.eclipse.swt.graphics,
@@ -41,6 +48,9 @@ Import-Package: javax.annotation,
  org.osgi.framework,
  org.osgi.service.event
 Bundle-ActivationPolicy: lazy
-Export-Package: io.github.che4.menu,
- io.github.che4.menu.handlers,
- io.github.che4.menu.menus
+Export-Package: io.github.che4.i18n.menu,
+ io.github.che4.i18n.menu.api,
+ io.github.che4.i18n.menu.handlers,
+ io.github.che4.i18n.menu.menus,
+ io.github.che4.i18n.menu.util
+Automatic-Module-Name: io.github.che4.i18n.menu

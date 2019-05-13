@@ -1,0 +1,40 @@
+# Main category
+units.0.id=che4.category
+units.0.version=1.0.0
+#properties
+units.0.properties.0.name=org.eclipse.equinox.p2.type.category
+units.0.properties.0.value=true
+units.0.properties.1.name=org.eclipse.equinox.p2.name
+units.0.properties.1.value=Che4
+#provides
+units.0.provides.0.namespace=org.eclipse.equinox.p2.iu
+units.0.provides.0.name=che4.category
+units.0.provides.0.version=1.0.0
+#requires
+units.0.requires.0.namespace=org.eclipse.equinox.p2.iu
+units.0.requires.0.name=che4.i18n.category
+
+# Child category
+
+units.1.id=che4.i18n.category
+units.1.versioin=1.0.0
+# properties
+units.1.properties.0.name=org.eclipse.equinox.p2.type.category
+units.1.properties.0.value=true
+units.1.properties.1.name=org.eclipse.equinox.p2.name
+units.1.properties.1.value=Che4 I18N
+units.1.properties.2.name=org.eclipse.equinox.p2.description
+units.1.properties.2.value=Internationalization with Che4
+#provides
+units.1.provides.0.namespace=org.eclipse.equinox.p2.iu
+units.1.provides.0.name=che4.i18n.category
+units.1.provides.0.version=1.0.0
+#requires
+units.1.requires.0.namespace=org.eclipse.equinox.p2.iu
+units.1.requires.0.name=io.github.che4.i18n.menu.feature.feature.group
+units.1.requires.0.range=[$version$, $version$]
+
+requires.0.namespace=org.eclipse.equinox.p2.iu
+requires.0.name=che4.i18n.category
+requires.0.range=[1.0.0,1.0.0]
+requires.0.greedy=true
