@@ -6,4 +6,4 @@ cache:
 #before_install: mvn -f menu.releng/pom.xml -P versions
 install: true
 before_script: chmod +x mvnw
-script: ./mvnw -f ./menu.releng/pom.xml -DforceContextQualifier=$TRAVIS_BUILD_NUMBER deploy
+script: ./mvnw -f ./menu.releng --global-settings ./.mvn/settings.xml -DforceContextQualifier=$TRAVIS_BUILD_NUMBER deploy
