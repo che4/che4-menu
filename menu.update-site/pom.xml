@@ -76,6 +76,7 @@
 				</executions>
 				<configuration>
 					<serverId>bintray</serverId>
+					<toDir>i18n-menu</toDir>
 					<fromFile>${project.build.directory}/${project.artifactId}-${qualifiedVersion}.zip</fromFile>
 					<url>https://api.bintray.com/content/che4/p2-i18n-menu/;bt_package=${project.artifactId};bt_version=${qualifiedVersion};publish=1;override=1;explode=1;</url>
 				</configuration>
