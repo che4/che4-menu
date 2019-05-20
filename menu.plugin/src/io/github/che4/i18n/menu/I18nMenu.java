@@ -1,6 +1,10 @@
 package io.github.che4.i18n.menu;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -9,12 +13,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.services.log.Logger;
 import org.eclipse.e4.core.services.nls.ILocaleChangeService;
 import org.eclipse.e4.core.services.translation.TranslationService;
 import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.e4.ui.model.application.MApplicationElement;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenu;
 import org.eclipse.e4.ui.workbench.IWorkbench;
+import org.eclipse.e4.ui.workbench.Selector;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 
 import com.ibm.icu.util.ULocale;
@@ -24,7 +31,7 @@ import io.github.che4.i18n.menu.util.L10nUtil;
 
 public class I18nMenu {
 	
-	private final static String LANG_ICON_DIR_URI = "platform:/plugin/" + Activator.getBundleSymbolicName() + "/icons/flags/";
+	private final static String LANG_ICON_DIR_URI = "platform:/plugin/" + Activator.getBundleSymbolicName() + "/flags/";
 	private final static String UN_FLAG_ICON_URI = LANG_ICON_DIR_URI+"un.png";
 	
 	private static final String i18nMenuContributionId = "io.github.che4.i18n.menucontribution";
@@ -35,6 +42,20 @@ public class I18nMenu {
 	private MApplication application;
 	@Inject
 	private EModelService modelService;
+	
+	@SuppressWarnings("restriction")
+	@Inject
+	@org.eclipse.e4.core.di.annotations.Optional
+	private Logger logger;
+	
+	private Selector selector = new Selector() {
+
+		@Override
+		public boolean select(MApplicationElement el) {
+			String id = el.getElementId();
+			if(id==null) return false;
+			return el.getElementId().equals(E4Constants.LANGUAGE_MENU_ID);
+		}};
 	
 	@PostConstruct
 	private void init( @Named(TranslationService.LOCALE) Locale locale) {
@@ -115,15 +136,25 @@ public class I18nMenu {
 		String iconUri = I18nMenu.getCountryFlagURI(locale);
 		String localeLabel = ULocale.getDisplayLanguage(locale.toLanguageTag(), locale.toLanguageTag());
 
-		modelService.findElements(application, MMenu.class, EModelService.IN_MAIN_MENU, el -> 
-							el.getElementId().equals(E4Constants.LANGUAGE_MENU_ID) )
-			.stream()
-			.forEach( menu -> {
-				//System.out.println("Update menu: " + menu + " Parent: " + menu.getParent().getElementId());
-				menu.setLabel(localeLabel);
-				menu.setIconURI(iconUri);
-			});
-
+		//modelService.findElements(application, MMenu.class, EModelService.IN_MAIN_MENU, el -> el.getElementId().equals(E4Constants.LANGUAGE_MENU_ID) );
+		
+		List<MMenu> menus = modelService.findElements(application, MMenu.class, EModelService.IN_MAIN_MENU, selector);
+		if(menus!=null) {
+			menus.stream()
+				.forEach( menu -> {
+					//System.out.println("Update menu: " + menu + " Parent: " + menu.getParent().getElementId());
+					menu.setLabel(localeLabel);
+					menu.setIconURI(iconUri);
+				});
+		} else {
+			if(logger!=null) {
+				logger.warn("Menu {} not found", EModelService.IN_MAIN_MENU);
+			}
+		}
+		
+		
+		
+		
 		
 		setLabelAndIcon(localeLabel, iconUri);
 
@@ -157,10 +188,23 @@ public class I18nMenu {
 		String code3 = L10nUtil.getISO3Country(locale);
 		if(code3.isEmpty()) code3 = locale.getISO3Language();
 		if( !code3.isEmpty()) {
-			URL url = Activator.getContext().getBundle().getEntry("icons/flags/"+code3.toLowerCase()+".png");
+			/*
+			URL url = Activator.getContext().getBundle().getEntry("flags/"+code3.toLowerCase()+".png");
 			//URL url = FileLocator.find(Activator.getContext().getBundle(), new Path("icons/flags/"+country3.toLowerCase()+".png"), null);
 			if(url != null) {
 				return LANG_ICON_DIR_URI+code3.toLowerCase()+".png";
+			}
+			*/
+			try {
+				URL url = new URL(LANG_ICON_DIR_URI+code3.toLowerCase()+".png");
+				try (InputStream inputStream = url.openConnection().getInputStream()){
+					
+				} catch (IOException e) {
+					throw e;
+				}
+				return LANG_ICON_DIR_URI+code3.toLowerCase()+".png";
+			} catch (Exception e) {
+				//swallow exception and return UN flag
 			}
 		}
 		return UN_FLAG_ICON_URI;

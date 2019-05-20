@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="io.github.che4.i18n.menu.feature">
-      <category name="che4.i18n.category"/>
-   </feature>
-   <category-def name="che4.category" label="%che4.category"/>
-   <category-def name="che4.i18n.category" label="%che4.i18n.category">
-      <category name="che4.category"/>
-   </category-def>
+   <iu id="io.github.che4.category" />
+   <iu id="io.github.che4.i18n.category" />
+   <feature id="io.github.che4.i18n.menu.feature" />
 </site>

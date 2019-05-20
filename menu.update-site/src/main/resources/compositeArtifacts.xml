@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?compositeArtifactRepository version='1.0.0'?>
+<repository name='Che4 project update site'
+    type='org.eclipse.equinox.internal.p2.artifact.repository.CompositeArtifactRepository' 
+    version='1.0.0'>
+  <properties size='1'>
+    <property name='p2.timestamp' value='1243833503510'/>
+  </properties>
+  <children size='2'>
+    <child location='../../../target/repository/'/>
+    <child location='../../../../../menu.l10n/io.github.che4.i18n.menu.l10n.update-site/target/repository/'/>
+  </children>
+</repository>

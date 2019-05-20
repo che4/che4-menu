@@ -10,6 +10,15 @@
 	<packaging>eclipse-repository</packaging>
 	<name>Che4 i18n menu p2 update site</name>
 	
+	<dependencies>
+		<dependency>
+			<groupId>io.github.che4</groupId>
+			<artifactId>p2-categories</artifactId>
+			<version>1.0.0</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+	
 	<build>
 		<resources>
 			<resource>
@@ -31,6 +40,25 @@
 				<configuration>
 					<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
 				</configuration>
+			</plugin>
+			<!-- creates index.html and other artifacts, removes Uncategorized -->
+			<plugin>
+				<groupId>org.jboss.tools.tycho-plugins</groupId>
+				<artifactId>repository-utils</artifactId>
+				<executions>
+					<execution>
+						<id>generate-facade</id>
+						<phase>package</phase>
+						<goals>
+							<goal>generate-repository-facade</goal>
+						</goals>
+						<configuration>
+							<skipWebContentGeneration>true</skipWebContentGeneration>
+							<skipBuildInfo>true</skipBuildInfo>
+							<removeDefaultCategory>true</removeDefaultCategory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
