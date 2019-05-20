@@ -78,9 +78,9 @@
 				</executions>
 				<configuration>
 					<serverId>bintray</serverId>
-					<toDir>${project.properties.bintray-package}</toDir>
+					<toDir>${bintray-package}</toDir>
 					<fromFile>${project.build.directory}/${project.artifactId}-${qualifiedVersion}.zip</fromFile>
-					<url>https://api.bintray.com/content/che4/p2-i18n-menu/;bt_package=${project.properties.bintray-package};bt_version=${qualifiedVersion};publish=1;override=1;explode=1;</url>
+					<url>https://api.bintray.com/content/che4/p2-i18n-menu/;bt_package=${bintray-package};bt_version=${qualifiedVersion};publish=1;override=1;explode=1;</url>
 				</configuration>
 			</plugin>
 		</plugins>
