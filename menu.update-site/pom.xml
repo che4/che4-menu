@@ -10,14 +10,20 @@
 	<packaging>eclipse-repository</packaging>
 	<name>Che4 i18n menu p2 update site</name>
 	
+	<properties>
+		<bintray-package>i18n-menu</bintray-package>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.github.che4</groupId>
 			<artifactId>io.github.che4.p2.categories.bom</artifactId>
 			<version>1.0.0</version>
 			<type>pom</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
 	
 	<build>
 		<resources>
@@ -30,10 +36,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-packaging-plugin</artifactId>
-			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-repository-plugin</artifactId>
@@ -76,9 +78,9 @@
 				</executions>
 				<configuration>
 					<serverId>bintray</serverId>
-					<toDir>i18n-menu</toDir>
+					<toDir>${project.properties.bintray-package}</toDir>
 					<fromFile>${project.build.directory}/${project.artifactId}-${qualifiedVersion}.zip</fromFile>
-					<url>https://api.bintray.com/content/che4/p2-i18n-menu/;bt_package=${project.artifactId};bt_version=${qualifiedVersion};publish=1;override=1;explode=1;</url>
+					<url>https://api.bintray.com/content/che4/p2-i18n-menu/;bt_package=${project.properties.bintray-package};bt_version=${qualifiedVersion};publish=1;override=1;explode=1;</url>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -51,6 +51,7 @@
 		</developer>
 	</developers>
 	
+	
 	<!-- TEST is configured according to this article http://mukis.de/pages/simple-junit-tests-with-tycho-and-surefire/ -->
 	<!-- Consider to include POM-dependencies in Target Platform Definition - http://andriusvelykis.github.io/pde-target-maven-plugin/ -->
 	<build>
@@ -275,6 +276,10 @@
 					<plugin>
 						<groupId>org.eclipse.tycho</groupId>
 						<artifactId>tycho-packaging-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>target-platform-configuration</artifactId>
 					</plugin>
 				</plugins>
 			</build>
