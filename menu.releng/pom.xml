@@ -191,7 +191,6 @@
 					<version>${tycho-version}</version>
 				</plugin>
 				<plugin>
-					<!-- https://github.com/jbosstools/jbosstools-maven-plugins/tree/master/tycho-plugins/repository-utils -->
 					<groupId>org.jboss.tools.tycho-plugins</groupId>
 					<artifactId>repository-utils</artifactId>
 					<version>1.4.0</version>
@@ -209,7 +208,6 @@
 					<version>2.8.2</version>
 					<configuration>
 						<skip>true</skip>
-						<!-- deployAtEnd>true</deployAtEnd -->
 					</configuration>
 				</plugin>
 			</plugins>

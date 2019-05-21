@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <iu id="io.github.che4.category" />
-   <iu id="io.github.che4.i18n.category" />
+   <!-- iu id="io.github.che4.i18n.category" -->
+   <!-- iu id="io.github.che4.i18n.menu.l10n.category" -->
    <feature id="io.github.che4.i18n.menu.feature" />
 </site>

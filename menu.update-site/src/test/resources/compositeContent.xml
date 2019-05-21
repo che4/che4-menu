@@ -2,11 +2,11 @@
 <?compositeMetadataRepository version='1.0.0'?>
 <repository name='Che4' type='org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository' version='1.0.0'>
   <properties size='2'>
-    <property name='p2.timestamp' value='1243833503510'/>
+    <property name='p2.timestamp' value='1243833503512'/>
     <property name='p2.atomic.composite.loading' value='false' />
   </properties>
   <children size='2'>
-    <child location='../../../../../menu.l10n/io.github.che4.i18n.menu.l10n.update-site/target/repository/'/>
     <child location='../../../target/repository/'/>
+    <child location='../../../../../menu.l10n/io.github.che4.i18n.menu.l10n.update-site/target/repository/'/>
   </children>
 </repository>
