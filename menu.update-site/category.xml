@@ -2,6 +2,5 @@
 <site>
    <iu id="io.github.che4.category" />
    <!-- iu id="io.github.che4.i18n.category" -->
-   <!-- iu id="io.github.che4.i18n.menu.l10n.category" -->
    <feature id="io.github.che4.i18n.menu.feature" />
 </site>
