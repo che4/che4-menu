@@ -11,7 +11,7 @@
 	<name>Che4 :: i18n menu :: update site</name>
 	
 	<properties>
-		<bintray-package>che4-i18n-menu</bintray-package>
+		<bintray-package>i18n-menu</bintray-package>
 	</properties>
 
 	<dependencies>
