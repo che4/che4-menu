@@ -16,7 +16,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.che4</groupId>
 	<artifactId>io.github.che4.i18n.menu.releng</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.0.1.346</version>
 	<packaging>pom</packaging>
 	<name>Che4 :: I18n menu :: Release Engineering</name>
 	<description>Parent artifact for github.com/che4/che4-menu project.</description>
@@ -56,97 +56,24 @@
 	<!-- Consider to include POM-dependencies in Target Platform Definition - http://andriusvelykis.github.io/pde-target-maven-plugin/ -->
 	<build>
 		<defaultGoal>clean package</defaultGoal>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
-				<executions>
-					<execution>
-						<id>dependencies-copy</id>
-						<phase>process-resources</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.0.0</version>
-				<executions>
-					<execution>
-						<id>read-project-version</id>
-						<phase>initialize</phase>
-						<goals><goal>parse-version</goal></goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!--
-				we use version-maven-plugin to get latest target platform, since neither bintray accepts SNAPSHOTS
-				nor tycho target platform accepts version range
-			-->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.5</version>
-				<executions>
-					<execution>
-						<id>get-target-platform-version</id>
-						<phase>initialize</phase>
-						<goals><goal>update-properties</goal></goals>
-					</execution>
-				</executions>
-				<!-- set property version.target-platform to the latest from the range version-range.target-platform -->
-				<configuration>
-					<properties><property>
-							<name>version.target-platform</name>
-							<version>${version-range.target-platform}</version>
-					</property></properties>
-				</configuration>
-			</plugin>
-			<!-- 
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-compiler-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			-->
-			<!-- org.eclipse.tycho:tycho-surefire-plugin:test Tycho Surefire tests run in the integration-test phase -->
-			<!--			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.11</version>
-				
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>2.12</version>
-					</dependency>
-				</dependencies>
-				
-				<configuration>
-					<includes>
-						<include>**/*.class</include>
-					</includes>
-					<excludedGroups>com.test.annotation.type.IntegrationTest</excludedGroups>
-				</configuration>
-			</plugin>
-			-->
-			
-		</plugins>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.1.0</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>resources</goal>
+							</goals>
+							<phase>process-resources</phase>
+							<configuration>
+								<overwrite>true</overwrite>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>target-platform-configuration</artifactId>
@@ -175,7 +102,6 @@
 					<configuration>
 						<strictVersions>false</strictVersions>
 					</configuration>
-					<!-- Contribute the "buildQualifier" property to the environment -->
 					<executions>
 						<execution>
 							<goals>
@@ -186,32 +112,83 @@
 					</executions>
 				</plugin>
 				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-p2-repository-plugin</artifactId>
-					<version>${tycho-version}</version>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.4</version>
 				</plugin>
 				<plugin>
-					<groupId>org.jboss.tools.tycho-plugins</groupId>
-					<artifactId>repository-utils</artifactId>
-					<version>1.4.0</version>
-				</plugin>
-				
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.1.0</version>
-				</plugin>
-				
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.8.2</version>
+					<version>2.7</version>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
 					<configuration>
-						<skip>true</skip>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>flatten-maven-plugin</artifactId>
+										<versionRange>[1.1.0,)</versionRange>
+										<goals><goal>flatten</goal></goals>
+									</pluginExecutionFilter>
+									<action><ignore></ignore></action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		
+		
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<!--
+				we use version-maven-plugin to get latest target platform, since neither bintray accepts SNAPSHOTS
+				nor tycho target platform accepts version range
+			-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>get-target-platform-version</id>
+						<phase>initialize</phase>
+						<goals><goal>update-properties</goal></goals>
+					</execution>
+				</executions>
+				<configuration>
+					<properties><property>
+							<name>version.target-platform</name>
+							<version>${version-range.target-platform}</version>
+					</property></properties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			
+		</plugins>
 	</build>
 	
 
@@ -225,6 +202,7 @@
 				</property>
 			</activation>
 			<build>
+				<defaultGoal>initialize</defaultGoal>
 				<plugins>
 					<plugin>
 						<groupId>org.eclipse.tycho</groupId>
@@ -245,11 +223,53 @@
 			</build>
 		</profile>
 		<profile>
-			<id>releng</id>
+			<id>set-release-version</id>
 			<activation>
 				<property>
-					<name>!newVersion</name>
+					<name>forceContextQualifier</name>
 				</property>
+			</activation>
+			<build>
+				<defaultGoal>initialize</defaultGoal>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-packaging-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>read-project-version</id>
+								<phase>initialize</phase>
+								<goals><goal>parse-version</goal></goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-versions-plugin</artifactId>
+						<version>${tycho-version}</version>
+						<executions>
+							<execution>
+								<id>set-release-versions</id>
+								<phase>initialize</phase>
+								<goals><goal>set-version</goal></goals>
+								<configuration>
+									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.${buildQualifier}</newVersion>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>releng</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
 				<module>../menu.plugin</module>
@@ -259,7 +279,7 @@
 			</modules>
 
 			<build>
-				<defaultGoal>clean validate resources:resources package</defaultGoal>
+				<defaultGoal>process-resources install</defaultGoal>
 				<resources>
 					<resource>
 						<directory>src/main/resources</directory>
@@ -276,175 +296,55 @@
 						<artifactId>tycho-packaging-plugin</artifactId>
 					</plugin>
 					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<!-- THOUSE PROFILES TO BE DELETED!!! -->
-		<profile>
-			<id>set-version</id>
-			<build>
-				<plugins>
-					<!-- parse project version
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>3.0.0</version>
-						<executions>
-							<execution>
-								<id>read-project-version</id>
-								<phase>initialize</phase>
-								<goals><goal>parse-version</goal></goals>
-							</execution>
-						</executions>
-					</plugin>
-					 -->
-					<!-- Change SNAPSHOT to timestamp and update children modules -->
-					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-enforcer-plugin</artifactId>
-						<version>3.0.0-M1</version>
-						<executions>
-							<execution>
-								<id>enforce-versions</id>
-								<goals><goal>enforce</goal></goals>
-								<configuration>
-									<rules>
-										<requireProperty>
-											<property>newVersion</property>
-										</requireProperty>
-									</rules>
-									<failFast>true</failFast>
-								</configuration>
-							</execution>
-						</executions>
+						<artifactId>maven-resources-plugin</artifactId>
 					</plugin>
-					<plugin>
-						<!-- run mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=2.5.0-SNAPSHOT -->
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-versions-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<executions>
-							<execution>
-								<id>set-release-versions</id>
-								<phase>initialize</phase>
-								<goals><goal>set-version</goal></goals>
-								<configuration>
-									<!-- 
-									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</newVersion>
-									-->
-									<newVersion>${newVersion}</newVersion>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- use this version to get latest target platform, since bintray doesn't accept SNAPSHOTS -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>versions-maven-plugin</artifactId>
-						<version>2.5</version>
+						<artifactId>flatten-maven-plugin</artifactId>
+						<version>1.1.0</version>
+						<inherited>true</inherited>
 						<executions>
 							<execution>
-								<id>get-target-platform-version</id>
-								<phase>initialize</phase>
-								<goals><goal>update-properties</goal></goals>
-							</execution>
-						</executions>
-						<configuration>
-							<properties><property>
-									<name>version.target-platform</name>
-									<version>${version-range.target-platform}</version>
-							</property></properties>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-			<!-- Dependencies to resolve last version on bintray.com -->
-			<dependencies>
-				<dependency>
-					<groupId>io.github.che4</groupId>
-					<artifactId>target-dev-platform</artifactId>
-					<version>${version.target-platform}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>set-release-version</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-maven-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<extensions>true</extensions>
-					</plugin>
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-					</plugin>
-					<!-- parse project version -->
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>3.0.0</version>
-						<executions>
-							<execution>
-								<id>parse-version</id>
-								<phase>initialize</phase>
+								<id>flatten</id>
+								<phase>process-resources</phase>
 								<goals>
-									<goal>parse-version</goal>
+									<goal>flatten</goal>
+								</goals>
+								<configuration>
+									<flattenMode>bom</flattenMode>
+									<pomElements>
+										<pluginManagement>remove</pluginManagement>
+										<distributionManagement>remove</distributionManagement>
+										<build>remove</build>
+										<properties>keep</properties>
+										<repositories>remove</repositories>
+									</pomElements>
+								</configuration>
+							</execution>
+							<execution>
+								<id>flatten-clean</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>clean</goal>
 								</goals>
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<!-- run mvn org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=2.5.0-SNAPSHOT -->
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-versions-plugin</artifactId>
-						<version>${tycho-version}</version>
-						<executions>
-							<execution>
-								<id>set-release-versions</id>
-								<phase>initialize</phase>
-								<goals><goal>set-version</goal></goals>
-								<configuration>
-									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</newVersion>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- Change SNAPSHOT to timestamp and update children modules 
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>versions-maven-plugin</artifactId>
-						<version>2.5</version>
-						<executions>
-							<execution>
-								<id>set-pom-version</id>
-								<phase>initialize</phase>
-								<goals><goal>set</goal></goals>
-								<configuration>
-									<processAllModules>false</processAllModules>
-									<newVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}</newVersion>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					-->
 				</plugins>
 			</build>
+			<distributionManagement>
+				<repository>
+					<name>mybintray</name>
+					<id>bintray</id>
+					<url>https://api.bintray.com/maven/che4/maven/che4-i18n-menu/;publish=1</url>
+				</repository>
+			</distributionManagement>
 		</profile>
 	</profiles>
 
 	<repositories>
 		<repository>
-		<!-- Duplicating the Maven Central repository here (as it is already coming from Super POM) makes the build much faster,
-			as the Maven Central is now treated as the first (default) repository (because it is before the JBoss.org one).
-			Artifacts with release (fixed) versions are being downloaded primarily from there. Without the central being the
-			first repository the JBoss.org Nexus would be contacted first and since it is quite slow it slows down the build.
-			We use JBoss.org repo only to download our SNAPSHOTs. -->
 			<id>central</id>
 			<name>Central Repository</name>
 			<url>https://repo.maven.apache.org/maven2</url>
@@ -461,33 +361,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<!-- Duplicating the Maven Central repository here (as it is already coming from Super POM) makes the build much faster,
-				as the Maven Central is now treated as the first (default) repository (because it is before the JBoss.org one).
-				Artifacts with release (fixed) versions are being downloaded primarily from there. Without the central being the
-				first repository the JBoss.org Nexus would be contacted first and since it is quite slow it slows down the build.
-				We use JBoss.org repo only to download our SNAPSHOTs. -->
-			<id>central</id>
-			<name>Central Repository</name>
-			<url>https://repo.maven.apache.org/maven2</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 	
 	<url>https://github.com/che4/che4-menu</url>
 	<scm>

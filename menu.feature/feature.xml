@@ -2,7 +2,7 @@
 <feature
       id="io.github.che4.i18n.menu.feature"
       label="%featureName"
-      version="1.0.0.qualifier"
+      version="0.0.1.346"
       provider-name="%providerName"
       plugin="io.github.che4.i18n.menu">
 

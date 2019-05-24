@@ -48,3 +48,7 @@ public static void hello(){
 }
 
 ```
+
+
+	<!-- TEST is configured according to this article http://mukis.de/pages/simple-junit-tests-with-tycho-and-surefire/ -->
+	<!-- Consider to include POM-dependencies in Target Platform Definition - http://andriusvelykis.github.io/pde-target-maven-plugin/ -->

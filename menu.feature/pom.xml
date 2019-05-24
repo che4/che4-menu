@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.github.che4</groupId>
 		<artifactId>io.github.che4.i18n.menu.releng</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>0.0.1.346</version>
 		<relativePath>../menu.releng</relativePath>
 	</parent>
 	<artifactId>io.github.che4.i18n.menu.feature</artifactId>

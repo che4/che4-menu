@@ -3,28 +3,33 @@
 	<parent>
 		<groupId>io.github.che4</groupId>
 		<artifactId>io.github.che4.i18n.menu.releng</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>0.0.1.346</version>
 		<relativePath>../menu.releng</relativePath>
 	</parent>
 	<artifactId>io.github.che4.i18n.menu.update-site</artifactId>
 	<packaging>eclipse-repository</packaging>
-	<name>Che4 i18n menu</name>
+	<name>Che4 :: i18n menu :: update site</name>
 	
 	<properties>
-		<bintray-package>i18n-menu</bintray-package>
+		<bintray-package>che4-i18n-menu</bintray-package>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>io.github.che4</groupId>
 			<artifactId>io.github.che4.p2.categories.bom</artifactId>
-			<version>1.0.0</version>
+			<version>[0.1, 1)</version>
 			<type>pom</type>
 		</dependency>
 	</dependencies>
 
 	
 	<build>
+		<defaultGoal>package</defaultGoal>
+		<pluginManagement>
+			<plugins>
+			</plugins>
+		</pluginManagement>
 		<resources>
 			<resource>
 				<directory>${basedir}</directory>
@@ -46,6 +51,7 @@
 			<plugin>
 				<groupId>org.jboss.tools.tycho-plugins</groupId>
 				<artifactId>repository-utils</artifactId>
+				<version>1.4.0</version>
 				<executions>
 					<execution>
 						<id>generate-facade</id>
@@ -61,6 +67,18 @@
 					</execution>
 				</executions>
 			</plugin>
+				<plugin>
+					<artifactId>maven-install-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
@@ -78,7 +96,7 @@
 				<configuration>
 					<serverId>bintray</serverId>
 					<fromFile>${project.build.directory}/${project.artifactId}-${qualifiedVersion}.zip</fromFile>
-					<url>https://api.bintray.com/content/che4/p2-i18n-menu/${bintray-package}/;bt_package=${bintray-package};bt_version=${qualifiedVersion};publish=1;override=1;explode=1;</url>
+					<url>https://api.bintray.com/content/che4/p2-i18n-menu/${bintray-package}/;bt_package=${bintray-package};bt_version=${qualifiedVersion};publish=1;explode=1;</url>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -90,4 +108,26 @@
 			</extension>
 		</extensions>
 	</build>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
