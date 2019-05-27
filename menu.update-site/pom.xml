@@ -14,16 +14,6 @@
 		<bintray-package>i18n-menu</bintray-package>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>io.github.che4</groupId>
-			<artifactId>io.github.che4.p2.categories.bom</artifactId>
-			<version>[0.1, 1)</version>
-			<type>pom</type>
-		</dependency>
-	</dependencies>
-
-	
 	<build>
 		<defaultGoal>package</defaultGoal>
 		<pluginManagement>
@@ -47,38 +37,37 @@
 					<finalName>${project.artifactId}-${qualifiedVersion}</finalName>
 				</configuration>
 			</plugin>
-			<!-- creates index.html and other artifacts, removes Uncategorized -->
 			<plugin>
-				<groupId>org.jboss.tools.tycho-plugins</groupId>
-				<artifactId>repository-utils</artifactId>
-				<version>1.4.0</version>
+				<groupId>io.github.che4</groupId>
+				<artifactId>tycho-repository-plugin</artifactId>
+				<version>0.0.1</version>
 				<executions>
 					<execution>
-						<id>generate-facade</id>
+						<id>generate-update-site</id>
 						<phase>package</phase>
 						<goals>
-							<goal>generate-repository-facade</goal>
+							<goal>generate-p2-repository</goal>
 						</goals>
 						<configuration>
 							<skipWebContentGeneration>true</skipWebContentGeneration>
-							<skipBuildInfo>true</skipBuildInfo>
 							<removeDefaultCategory>true</removeDefaultCategory>
+							<defaultCategoryPattern>Default</defaultCategoryPattern>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-				<plugin>
-					<artifactId>maven-install-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</plugin>
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
@@ -119,14 +108,14 @@
 			</snapshots>
 		</pluginRepository>
 		<pluginRepository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<id>che4-public-repo</id>
+			<name>Che4 Public Repository (bintray.com)</name>
+			<url>https://dl.bintray.com/che4/maven/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
