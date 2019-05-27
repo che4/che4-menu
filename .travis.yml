@@ -6,7 +6,7 @@ cache:
 #  - mvn -N io.takari:maven:wrapper
 #before_script:
 #  - chmod +x mvnw
-before_script: chmod +x mvnw
+#before_script: chmod +x mvnw
 script: >-
   mvn -f ./menu.releng --global-settings ./.travis/settings.xml -DforceContextQualifier=$TRAVIS_BUILD_NUMBER &&
   mvn -f ./menu.releng --global-settings ./.travis/settings.xml deploy
