@@ -45,9 +45,9 @@ public class LanguageMenuProvider {
 	private org.eclipse.e4.core.commands.ECommandService commandService;
 	@Inject private IEclipseContext context;
 	
-	@Inject
-	@Named(TranslationService.LOCALE)
-	private Locale initialLocale;
+	//@Inject
+	//@Named(TranslationService.LOCALE)
+	//private Locale initialLocale;
 	
 		
 	private static final String COMMAND_ID = "io.github.che4.tray.command.changeLocale";
@@ -59,8 +59,7 @@ public class LanguageMenuProvider {
 	private static final MCommand COMMAND;
 	private static final MHandler HANDLER;
 	
-	@Inject
-	private I18nMenuConfig config;
+	private Collection<ULocale> knownLanguages;
 	
 	static {
 		MCommand command = MCommandsFactory.INSTANCE.createCommand();
@@ -91,7 +90,7 @@ public class LanguageMenuProvider {
 	
 	@SuppressWarnings("restriction")
 	@PostConstruct
-	private void init() {
+	private void init(final I18nMenuConfig config) {
 		//ContextInjectionFactory.inject(HANDLER, context);
 		//IContributionFactory cf = context.get(IContributionFactory.class);
 		//HANDLER.setObject(cf.create(HANDLER.getContributionURI(), context));
@@ -105,6 +104,17 @@ public class LanguageMenuProvider {
 				COMMAND.getDescription(),
 				category,
 				E4ModelUtil.convertToCoreParams(COMMAND.getParameters()) );
+		
+		Collection<ULocale> supportedLanguages = config.getAvailableLocales().stream()
+				.map( lang_country -> ULocale.createCanonical(lang_country))
+				.collect( Collectors.toSet() );
+		ULocale uDefaultLocale = ULocale.forLocale( config.getFallbackLocale() );
+		if(supportedLanguages.size() == 1 && supportedLanguages.contains(uDefaultLocale)) {
+			knownLanguages = Collections.emptyList();
+		} else {
+			supportedLanguages.add(uDefaultLocale);
+			knownLanguages = supportedLanguages;
+		}
 	}
 	/*
 	@Deprecated
@@ -146,25 +156,26 @@ public class LanguageMenuProvider {
 	}
 	*/
 	public Collection<? extends MMenuElement> getLanguageItems() {
+		/*
 		Collection<ULocale> supportedLanguages = config.getAvailableLocales().stream()
 				.map( lang_country -> ULocale.createCanonical(lang_country))
 				.collect( Collectors.toSet() );
-				
-		if(supportedLanguages.isEmpty()) Collections.emptyList();
+		*/
+		//if(supportedLanguages.isEmpty()) Collections.emptyList();
 		//ULocale initialULocale = ULocale.forLocale(initialLocale);
 		//ULocale uDefaultLocale = ULocale.forLocale(L10nUtil.LOCALE_DEFAULT);
 		//FIXME we decide that English is default, i.e. bundle.properties is in English
 		//ULocale uDefaultLocale = ULocale.ENGLISH;
-		ULocale uDefaultLocale = ULocale.forLocale( config.getFallbackLocale() );
-		if(supportedLanguages.size() == 1 &&
-				supportedLanguages.contains(uDefaultLocale)) return Collections.emptyList();
+		//ULocale uDefaultLocale = ULocale.forLocale( config.getFallbackLocale() );
+		//if(supportedLanguages.size() == 1 &&
+		//		supportedLanguages.contains(uDefaultLocale)) return Collections.emptyList();
 		
-		supportedLanguages.add(uDefaultLocale);
+		//supportedLanguages.add(uDefaultLocale);
 		
 		Locale currentLocale = (Locale) context.get(TranslationService.LOCALE);
 		//String currentLang = currentLocale == null ? null : currentLocale.getLanguage();
 		ULocale uCurrentLocale = ULocale.forLocale(currentLocale);
-		return supportedLanguages.stream()
+		return knownLanguages.stream()
 			.map( uloc -> getLocaleMenuItem(uloc, uCurrentLocale))
 			.filter( optLang -> optLang.isPresent() )
 			.map ( optLang -> optLang.get() )
