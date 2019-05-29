@@ -11,7 +11,7 @@
       <children xsi:type="menu:Menu" xmi:id="_PG9G8FbREemaw9tWfhFsjQ" elementId="io.github.che4.i18n.menu" label="%io.github.che4.menu.0.item.Languages">
         <children xsi:type="menu:DynamicMenuContribution" xmi:id="_uZrjAFbREemaw9tWfhFsjQ" elementId="io.github.che4.i18n.menu.dyncontrib" contributionURI="bundleclass://io.github.che4.i18n.menu/io.github.che4.i18n.menu.menus.LanguagesMenu"/>
       </children>
-      <children xsi:type="menu:Menu" xmi:id="_0RCMQBYfEeirct2E526O9g" elementId="io.github.che4.brand.menu" label="%io.github.che4.menu.0.title" iconURI="platform:/plugin/io.github.che4.i18n.menu/icons/che-guevara.png">
+      <children xsi:type="menu:Menu" xmi:id="_0RCMQBYfEeirct2E526O9g" elementId="io.github.che4.brand.menu" toBeRendered="false" visible="false" label="%io.github.che4.menu.0.title" iconURI="platform:/plugin/io.github.che4.i18n.menu/icons/che-guevara.png">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_pgbT8BYgEeirct2E526O9g" elementId="io.github.che4.menu.0.item.HelloWorld" label="%io.github.che4.menu.0.item.HelloWorld" iconURI="platform:/plugin/io.github.che4.i18n.menu/icons/che-guevara.png" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_yuiFECIPEeivy4dHnId4Tg" elementId="io.github.che4.menu.0.menuseparator.0"/>
       </children>

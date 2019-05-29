@@ -16,7 +16,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.che4</groupId>
 	<artifactId>io.github.che4.i18n.menu.releng</artifactId>
-	<version>0.0.1.346</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Che4 :: I18n menu :: Release Engineering</name>
 	<description>Parent artifact for github.com/che4/che4-menu project.</description>
